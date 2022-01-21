@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render
 from .models import Room
 
@@ -18,4 +19,8 @@ def room(request, pk):
     room = Room.objects.get(id=pk)
     context = {'room': room}
     return render(request, 'base/room.html', context)
-    
+
+
+def createRoom(requet):
+    context = {}
+    return render(request, 'base/room_form.html', context)
