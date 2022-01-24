@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Room
+from .models import Room, Topic
 from .forms import RoomForm
 
 # rooms = [
@@ -10,8 +10,11 @@ from .forms import RoomForm
 
 # to create a view, we should make function like this
 def home(request): # http object
-    rooms = Room.objects.all()
-    context = {'rooms': rooms}
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    rooms = Room.objects.all().filter(topic__name__icontains=q)
+    topics = Topic.objects.all()
+    
+    context = {'rooms': rooms, 'topics': topics}
     return render(request, 'base/home.html', context) # request받아서 'home.html' 템플릿 렌더링해주는 django.shortcuts모듈 속 함수
     
 def room(request, pk): 
@@ -51,3 +54,4 @@ def deleteRoom(request, pk):
         return redirect('home')
             
     return render(request, 'base/delete.html', {'obj': room})
+
