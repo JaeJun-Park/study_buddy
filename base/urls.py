@@ -10,6 +10,7 @@ urlpatterns = [ # 사용자로 부터 http요청이 들어오면 이 배열 내�
     path('create-room/', views.createRoom, name="create-room"),
     path('update-room/<str:pk>/', views.updateRoom, name="update-room"),
     path('delete-room/<str:pk>/', views.deleteRoom, name="delete-room"),
+    path('delete-messgae/<str:pk>/', views.deleteMessage, name="delete-message")
 ]
 
 
