@@ -59,7 +59,7 @@ def registerPage(request):
         else:
             messages.error(request, 'An error occured during registeration')
 
-    return render(request, 'base/login_register.html', {'form':form})
+    return render(request, 'base/login_register.html', {'form':form, 'page':page})
 
 # to create a view, we should make function like this
 def home(request):
@@ -96,8 +96,17 @@ def room(request, pk):
 
     context = {'room': room, 'room_messages': room_messages, 'participants': participants}
 
-
     return render(request, 'base/room.html', context)
+
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all() # one to many : get all the children of specific object
+    room_messages = user.message_set.all()
+    topics = Topic.objects.all()
+    context = {'user': user, 'rooms': rooms, 'room_messages': room_messages, 'topics':topics} # for passing info to feed_component template
+    return render(request, 'base/profile.html', context)
+
+
 
 @login_required(login_url='/login')
 def createRoom(request):
